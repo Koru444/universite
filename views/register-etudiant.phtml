@@ -1,0 +1,64 @@
+<h1>Ajouter un nouvel étudiant:</h1>
+<section id="register" class="col s12">
+    <form class="col s12" method="POST" action="<?=$_SERVER['REQUEST_URI']?>">
+        <article class="form-register">
+
+            
+            <div class="input-field col s6">
+                <label for="lastname">Nom :</label>
+                <input id="lastname" name="lastname" type="text" class="validate">
+            </div>
+
+            <div class="input-field col s6">
+                <label for="firstname">Prénom :</label>
+                <input id="firstname" name="firstname" type="text" class="validate">
+            </div>
+
+            <div class="input-field col s6">
+                <label for="lastname">Sexe :</label>
+                <select id="sexe" name="sexe" class="validate">
+                    <option value="H">Homme</option>
+                    <option value="F">Femme</option>
+
+                </select>
+            </div>
+
+            <div class="input-field col s6">
+                <label for="date">date : :</label>
+                <input id="date" name="date" type="date" class="validate">
+            </div>
+            
+            <div class="input-field col s6">
+                <label for="tel">tel :</label>
+                <input id="tel" name="tel" type="text" class="validate">
+            </div>
+            
+            <div class="input-field col s12">
+                <label for="email">Email :</label>
+                <input id="email" type="email" name="email" class="validate">
+            </div>
+
+            <div class="input-field col s12">
+                <label for="password">Mot de passe :</label>
+                <input id="password" name="password" type="password" class="validate">
+            </div>
+
+            <div class="input-field col s6">
+                <label for="lastname">promotion :</label>
+                <select id="promo" name="promo">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+
+                </select>
+            </div>
+            
+
+            <div class="register">
+                <button class="btn-register" type="submit" name="submit">Soumettre</button>
+            </div>
+        </article>
+    </form>
+</section>
+</div>

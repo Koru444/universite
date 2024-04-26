@@ -1,0 +1,27 @@
+<section id="login" class="col s12">
+    <form class="col s12" action="<?=$_SERVER['REQUEST_URI']?>" method="POST">
+        <article class="form-login">
+            <h1 class="hello">Connectez-vous</h1>
+
+            <div class="input-field col s12">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" class="validate">
+            </div>
+
+            <div class="input-field col s12">
+                <label for="password">Mot de passe</label>
+                <input id="password" name="password" type="password" class="validate">
+            </div>
+
+            <div class="checkbox-container">
+                <input type="checkbox" required>
+                <div class="text-checkbox">I agree with the terms of service.</div>
+            </div>
+
+            <div>
+                <button class="btn-login" type="submit" name="submit" >Se connecter</button>
+                <a href="">Mot de passe oublié?</a>
+            </div>
+        </article>
+    </form>
+</section>

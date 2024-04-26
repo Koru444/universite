@@ -1,0 +1,28 @@
+#-----------------------------------
+# FICHIER DE CONFIGURATION APACHE
+#-----------------------------------
+# le fichier .htaccess permet de réécrire les URL du site internet afin qu'il soit plus performant, plus sécurisant, plus propre et avoir un meilleur référencement
+
+
+#-------------------------------------------
+# Activation du module  de réécriture d'URL
+#-------------------------------------------
+RewriteEngine on
+
+#-------------------------------------
+# Règles de réécriture d'URL
+#-------------------------------------
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+
+
+
+# Le serveur doit suivre les liens symboliques:
+#Options +FollowSymlinks
+
+#RewriteRule ^contact$ index.php?page=contact [L]
+#RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
+
