@@ -1,20 +1,18 @@
 <?php
+
 require_once "db/database.php";
 // 
-class NoteModel extends Database
+class NoteModel
 {
     protected $pdo;
     private $NoteModel;
-    public function __construct()
-    {
-        parent::__construct();
-        //$this->pdo = new Database();
-    }
+    
 
     private $etudiantId;
     private $profId;
     private $note;
     private $commentaire;
+    
 
     public function getClass($numPromo)
     {
@@ -29,9 +27,15 @@ class NoteModel extends Database
                 $stmt->execute();
                 // var_dump($stmt);
                
-                return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+                // return $stmt->fetchAll(\PDO::FETCH_ASSOC);
                 // Envoyer la réponse au format JSON
-                
+               
+                $ligne = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        
+        return  $ligne;
+        // Envoyer la réponse au format JSON
+        // echo json_encode($data);
             }
         } catch (PDOException $e) {
             echo "ERREUR DE CONNEXION : " . $e->getMessage();

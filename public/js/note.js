@@ -25,9 +25,8 @@ function envoyerRequetePromotionNote() {
         alert("Impossible d'utiliser AJAX sur ce navigateur !");
     } else {
         let promos_id = document.getElementById('promos').value;
-        console.log(promos_id);
-        requeteHttp.open('POST','universite\controllers\Note.php', true);
-        requeteHttp.setRequestHeader("Content-Type", "application/json");
+        requeteHttp.open('POST','/controllers\Note.php', true);
+        requeteHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         requeteHttp.send("promos=" + promos_id);
         requeteHttp.onreadystatechange = function () { recevoirPromotion(requeteHttp) };
     }
@@ -39,8 +38,8 @@ function recevoirPromotion(requeteHttp) {
         // Si le réponse est bien envoyée
         if (requeteHttp.status == 200) {
             // let obj = JSON.parse(requeteHttp.responseText);
-              let obj = JSON.stringify(requeteHttp.responseText);
-
+              let obj = JSON.parse(requeteHttp.responseText);
+              console.log(obj)
 
             let contenuClass = "";
             for (let i = 0; i < obj.length; i++) {
@@ -51,11 +50,11 @@ function recevoirPromotion(requeteHttp) {
                 contenuClass += `<td>${eleve.nom_promo}</td>`;
                 contenuClass += 
                 `<td>
-                    <select name ='statut'>
-                        <option value="A">absent</option>
-                        <option value="P">présent</option>
-                        <option value="R">retard</option>
-                    </select>
+                <input type="text" name="note">
+                </td>`;
+                contenuClass += 
+                `<td>
+                <input type="text" name="commentaire">
                 </td>`;
                 contenuClass += `</tr>`;
             }

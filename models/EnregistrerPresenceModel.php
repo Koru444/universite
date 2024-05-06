@@ -1,7 +1,9 @@
 <?php
 // namespace models;
 
-require_once "db/database.php";
+require_once "C:\wamp64\www\universite\db\database.php";
+//include_once dirname($_SERVER['DOCUMENT_ROOT']).'/universite/db/database.php';
+
 
 class EnregistrerPresenceModel extends \Database
 {
@@ -12,44 +14,30 @@ class EnregistrerPresenceModel extends \Database
         parent::__construct();
     }
     public function getClass($numPromo) {
-        try{
-           
-
-                 if(isset($numPromo)&&is_numeric($numPromo)){
-
+        try {
+            if (isset($numPromo) && is_numeric($numPromo)) {
                 $numEtudiant = "SELECT etudiant.id, etudiant.nom, etudiant.prenom, promotion.nom as nom_promo FROM etudiant INNER JOIN promotion ON etudiant.promotion = promotion.id WHERE promotion = :numPromo";
                 $stmt = $this->pdo->prepare($numEtudiant);
                 $stmt->bindParam(':numPromo', $numPromo, PDO::PARAM_STR);
                 $stmt->execute();
-                // var_dump($stmt);
-        
-                return $stmt->fetchAll(\PDO::FETCH_ASSOC); 
-                // Envoyer la réponse au format JSON
-                $chaine = "[";
-                while ($ligne = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    $chaine .= "{";
-                        $chaine .= "\"nom\" : \"$ligne[nom]\",";
-                        $chaine .= "\"prenom\" : \"$ligne[prenom]\",";
-                        $chaine .= "\"promotion\" : \"$ligne[nom_promo]\"";
-                        $chaine .= "},";
-                    }
-    $test =json_encode($chaine);
-        // Envoyer la réponse au format JSON
-        echo $test;
-                if (strlen($chaine) > 1) {
-                    $chaine = substr($chaine, 0, -1);
-                }   
-                $chaine .=  "]";
-                echo $chaine;
+            
+                // Récupérer les résultats sous forme de tableau associatif
+                $resultats = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                
+                // Convertir les résultats en JSON
+                $jsonResponse = json_encode($resultats);
+    
+                // Envoyer la réponse JSON
+                header('Content-Type: application/json');
+                echo $jsonResponse;
+    
                 $stmt->closeCursor();
             }
-                } catch (\PDOException $e) {
-                    echo "ERREUR DE CONNEXION : " . $e->getMessage();
-                }
-                
-                // Structuration sous format JSON
-             
-            }
+        } catch (\PDOException $e) {
+            echo "ERREUR DE CONNEXION : " . $e->getMessage();
+        }
+    }
+    
             
     public function enregistrerPresence($result)
     { 

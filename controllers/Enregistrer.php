@@ -1,32 +1,36 @@
 <?php
-use db\Database;
+//use db\Database;
 
 
-require "models/EnregistrerPresenceModel.php";
+//include __DIR__ .'../models/EnregistrerPresenceModel.php';
+include dirname($_SERVER['DOCUMENT_ROOT']).'/universite/models/EnregistrerPresenceModel.php';
 
 class Enregistrer
 {
     private $Enregistrer;
 
+
     public function __construct()
     {
         $this->Enregistrer = new EnregistrerPresenceModel();
         
+        
     }
-
+    
+    
     public function doPresence()
     {
-       
+        
         if($_SERVER['REQUEST_METHOD']==='POST'){
-            
             $numPromo = $_POST['promo'];
+            
+        
             
             if(isset($numPromo) && is_numeric($numPromo))
             {
                 
                 $result = $this->Enregistrer->getClass($numPromo);
-                // var_dump($result);
-
+                echo"$result";
                 if(isset($result))
                 {
                     $this->Enregistrer->enregistrerPresence($result);
@@ -49,7 +53,6 @@ class Enregistrer
          // Inclure le layout qui gère le header et le footer
          include('views/enregistrer.phtml');
     }
-
     // public function updatePresence(){
         
     //     if($_SERVER['REQUEST_METHOD']==='POST'){

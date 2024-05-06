@@ -1,6 +1,6 @@
 <?php
 
-require_once "models/NoteModel.php";
+include_once "models\NoteModel.php";
 
 class Note
 {
@@ -15,17 +15,24 @@ class Note
     public function doNote(){
       
          try {  
+            if (isset($_POST['promos'])) {
+                $numPromo = $_POST['promos'];
+                var_dump($numPromo);
+            }
             if($_SERVER['REQUEST_METHOD']==='POST'){
            
                 // $result,$profId,$note,$commentaire;
                 if(isset($numPromo) && is_numeric($numPromo))
                 {
-                    $numPromo = $_POST['promos'];
+                  
 
                     $result = $this->Note->getClass($numPromo);
-                    var_dump($result);
+                    json_encode($result);
+                    
                     return $result;
-                } 
+                }else {
+                    echo json_encode(['error'=>"Numero de promotion invalide"]);
+                }
 
                 if(isset($result)){
                
@@ -37,10 +44,6 @@ class Note
                 exit;
                 }
                  
-                else 
-                {
-                    echo json_encode(['error'=>"Numero de promotion invalide"]);
-                }
         
               
             }  
@@ -50,8 +53,9 @@ class Note
         } catch (PDOException $e) {
             $this->error = $e->getMessage();
         }
-        
-       include('views/note.phtml');
+        $this->template = "note";
+        include('views/layoutAdmin.phtml');
+
     }
 
 

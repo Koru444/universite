@@ -1,7 +1,3 @@
-// var test1 = "dsdsdsdqd";
-
-//  console.log("test1");
-
 function getRequeteHttp() {
     let requeteHttp;
 
@@ -19,37 +15,43 @@ function getRequeteHttp() {
             }
         }
     }
-    console.log(requeteHttp);
     return requeteHttp;
 }
 
 function envoyerRequetePromotion() {
     let requeteHttp = getRequeteHttp();
-     
 
     if (requeteHttp == null) {
         alert("Impossible d'utiliser AJAX sur ce navigateur !");
     } else {
         let promos_id = document.getElementById('promos').value;
         console.log(promos_id);
-        // let form= document.querySelector('form');
-        requeteHttp.open('POST','controllers/Note.php', true);
-       
-        requeteHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-        requeteHttp.send("promo=" + promos_id);
-        
-        requeteHttp.onreadystatechange = function () {recevoirPromotion(requeteHttp) };
+        requeteHttp.open('POST','controllers\\Enregistrer.php', true);
+        requeteHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        requeteHttp.send("promos=" + promos_id);
+        // requeteHttp.onreadystatechange = function () { recevoirPromotion(requeteHttp) };
+        requeteHttp.onreadystatechange = function() {
+            if (requeteHttp.readyState == 4) {
+                if (requeteHttp.status == 200) {
+                    recevoirPromotion(requeteHttp);
+                } else {
+                    console.error('Erreur de requête: ' + requeteHttp.status);
+                }
+            }
+        };
     }
 }
 
 
+
+
 function recevoirPromotion(requeteHttp) {
-    // Si la requête est achevée
-    if (requeteHttp.readyState == 4) {
-        // Si le réponse est bien envoyée
+        if (requeteHttp.readyState == 4) {
+            console.log(requeteHttp.responseText);
+            // Si le réponse est bien envoyée
         if (requeteHttp.status == 200) {
             let obj = JSON.parse(requeteHttp.responseText);
-            let contenuClass = "";
+             let contenuClass = "";
             for (let i = 0; i < obj.length; i++) {
                 let eleve = obj[i];
                 contenuClass += `<tr>`;
@@ -58,7 +60,7 @@ function recevoirPromotion(requeteHttp) {
                 contenuClass += `<td>${eleve.nom_promo}</td>`;
                 contenuClass += 
                 `<td>
-                    <select name='statut'>
+                    <select name ='statut'>
                         <option value="A">absent</option>
                         <option value="P">présent</option>
                         <option value="R">retard</option>
@@ -70,5 +72,5 @@ function recevoirPromotion(requeteHttp) {
             select.innerHTML = contenuClass;
         }
     }
-    
 }
+
