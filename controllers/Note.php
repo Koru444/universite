@@ -1,6 +1,6 @@
 <?php
 
-include_once "models\NoteModel.php";
+include dirname ($_SERVER['DOCUMENT_ROOT']).'/universite/models/NoteModel.php';
 
 class Note
 {
@@ -10,21 +10,19 @@ class Note
     public function __construct(){
         // Initialiser la propriété $this->Note avec une instance de la classe NoteModel
         $this->Note = new NoteModel();
+
     }
     
     public function doNote(){
       
          try {  
-            if (isset($_POST['promos'])) {
-                $numPromo = $_POST['promos'];
-                var_dump($numPromo);
-            }
+          
             if($_SERVER['REQUEST_METHOD']==='POST'){
            
                 // $result,$profId,$note,$commentaire;
                 if(isset($numPromo) && is_numeric($numPromo))
                 {
-                  
+                  echo"$numPromo";
 
                     $result = $this->Note->getClass($numPromo);
                     json_encode($result);

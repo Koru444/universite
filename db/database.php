@@ -21,7 +21,6 @@ class Database
         catch(\PDOException $e) {
             $this->error = $e->getMessage();
         }
-        echo'connecté';
 
     }  
     public function getPdo()

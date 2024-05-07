@@ -25,7 +25,7 @@ function envoyerRequetePromotionNote() {
         alert("Impossible d'utiliser AJAX sur ce navigateur !");
     } else {
         let promos_id = document.getElementById('promos').value;
-        requeteHttp.open('POST','/controllers\Note.php', true);
+        requeteHttp.open('POST','controllers\\Note.php', true);
         requeteHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         requeteHttp.send("promos=" + promos_id);
         requeteHttp.onreadystatechange = function () { recevoirPromotion(requeteHttp) };
@@ -38,7 +38,7 @@ function recevoirPromotion(requeteHttp) {
         // Si le réponse est bien envoyée
         if (requeteHttp.status == 200) {
             // let obj = JSON.parse(requeteHttp.responseText);
-              let obj = JSON.parse(requeteHttp.responseText);
+              let obj = JSON.stringify(requeteHttp.responseText);
               console.log(obj)
 
             let contenuClass = "";

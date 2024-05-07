@@ -1,6 +1,6 @@
 function getRequeteHttp() {
     let requeteHttp;
-
+console.log(requeteHttp);
     if (window.XMLHttpRequest) {//Navigateure basé sur Mozilla
         requeteHttp = new XMLHttpRequest();
         if (requeteHttp.overrideMimeType) {//Si ça exige que le type des donnéees utilisé par le serveur soit text/xml
@@ -28,7 +28,7 @@ function envoyerRequetePromotion() {
         console.log(promos_id);
         requeteHttp.open('POST','controllers\\Enregistrer.php', true);
         requeteHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        requeteHttp.send("promos=" + promos_id);
+        requeteHttp.send("num_promo=" + promos_id);
         // requeteHttp.onreadystatechange = function () { recevoirPromotion(requeteHttp) };
         requeteHttp.onreadystatechange = function() {
             if (requeteHttp.readyState == 4) {
@@ -50,7 +50,7 @@ function recevoirPromotion(requeteHttp) {
             console.log(requeteHttp.responseText);
             // Si le réponse est bien envoyée
         if (requeteHttp.status == 200) {
-            let obj = JSON.parse(requeteHttp.responseText);
+            let obj = JSON.stringify(requeteHttp.responseText);
              let contenuClass = "";
             for (let i = 0; i < obj.length; i++) {
                 let eleve = obj[i];

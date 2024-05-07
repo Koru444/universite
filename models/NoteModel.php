@@ -1,6 +1,6 @@
 <?php
 
-require_once "db/database.php";
+require_once "C:\wamp64\www\universite\db\database.php";
 // 
 class NoteModel
 {
@@ -30,10 +30,15 @@ class NoteModel
                 // return $stmt->fetchAll(\PDO::FETCH_ASSOC);
                 // Envoyer la réponse au format JSON
                
-                $ligne = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-        
-        return  $ligne;
+                $resultats = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                
+                // Convertir les résultats en JSON
+                $jsonResponse = json_encode($resultats);
+    
+                // Envoyer la réponse JSON
+                header('Content-Type: application/json');
+                echo $jsonResponse;
+                return $resultats;
         // Envoyer la réponse au format JSON
         // echo json_encode($data);
             }

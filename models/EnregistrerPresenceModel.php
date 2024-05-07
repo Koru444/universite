@@ -23,15 +23,14 @@ class EnregistrerPresenceModel extends \Database
             
                 // Récupérer les résultats sous forme de tableau associatif
                 $resultats = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                
+                var_dump($resultats);
                 // Convertir les résultats en JSON
                 $jsonResponse = json_encode($resultats);
-    
+    // var_dump($jsonResponse);
                 // Envoyer la réponse JSON
-                header('Content-Type: application/json');
-                echo $jsonResponse;
-    
-                $stmt->closeCursor();
+                // header('Content-Type: application/json');
+                // echo $jsonResponse;
+                return $resultats;
             }
         } catch (\PDOException $e) {
             echo "ERREUR DE CONNEXION : " . $e->getMessage();
