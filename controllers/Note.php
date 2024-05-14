@@ -15,46 +15,38 @@ class Note
     
     public function doNote(){
       
-         try {  
-          
-            if($_SERVER['REQUEST_METHOD']==='POST'){
-           
-                // $result,$profId,$note,$commentaire;
-                if(isset($numPromo) && is_numeric($numPromo))
-                {
-                  echo"$numPromo";
-
-                    $result = $this->Note->getClass($numPromo);
-                    json_encode($result);
-                    
-                    return $result;
-                }else {
-                    echo json_encode(['error'=>"Numero de promotion invalide"]);
-                }
-
-                if(isset($result)){
-               
+        
+        $numPromo = $_POST['promos'];
+        $result = $this->Note->getClass($numPromo);
+        
+        if ($_POST) {
+            // Vérifier si $result n'est pas vide avant de traiter les présences
+            if (!empty($result)) {
                 $note = $_POST['note'];
                 $commentaire = $_POST['commentaire'];
                 $this->Note->registerNote($result,$note,$commentaire);
+              
+                //echo json_encode(['success' => true]);  Réponse JSON pour indiquer le succès
+            } else {
+                echo json_encode(['error' => "Aucun résultat pour cette promotion"]);
+            }
+        } 
+           
+                // $result,$profId,$note,$commentaire;
                 
-                // header("Location: index.php?url=enregistrer");
-                exit;
-                }
+                  $this->template = "note";
+                  include('views/layoutAdmin.phtml');
+                
+    }
                  
         
               
-            }  
+            
 
           
             
-        } catch (PDOException $e) {
-            $this->error = $e->getMessage();
-        }
-        $this->template = "note";
-        include('views/layoutAdmin.phtml');
 
-    }
+    
 
 
 

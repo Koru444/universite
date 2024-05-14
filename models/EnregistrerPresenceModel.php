@@ -23,14 +23,12 @@ class EnregistrerPresenceModel extends \Database
             
                 // Récupérer les résultats sous forme de tableau associatif
                 $resultats = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                var_dump($resultats);
                 // Convertir les résultats en JSON
                 $jsonResponse = json_encode($resultats);
     // var_dump($jsonResponse);
                 // Envoyer la réponse JSON
                 // header('Content-Type: application/json');
-                // echo $jsonResponse;
-                return $resultats;
+                    return $resultats;
             }
         } catch (\PDOException $e) {
             echo "ERREUR DE CONNEXION : " . $e->getMessage();
@@ -39,26 +37,35 @@ class EnregistrerPresenceModel extends \Database
     
             
     public function enregistrerPresence($result)
-    { 
-        // Appeler la fonction getClass pour obtenir les données
-        //   $listeAbsences=  $this->getClass($this->numPromo);
-        //     var_dump($listeAbsences);
-            
-            foreach ($result as $listeAbsence) {
-                
-                    $id = $listeAbsence['id'];
-                    $promotion = $listeAbsence['nom_promo'];
-                    // $statut = $_POST['statut'];
-                    $requete = "INSERT INTO enregistrerpresence (id_etudiant, promo) VALUES ('$id','$promotion')";
-             $stmt2 = $this->pdo->query($requete);
-                    // Utiliser $this->connexion au lieu de créer une nouvelle connexion
-                    if(isset($_POST['ok'])){ 
-                        $stmt2->execute();
+{ 
+    $requete = "INSERT INTO enregistrerpresence (id_etudiant, promo, status, date) VALUES (:etudiantID, :promo, :statut, NOW())";
+    $stmt = $this->pdo->prepare($requete);
 
-                } 
-        }                
+    // Récupérer les statuts d'absence depuis $_POST['statut']
+    $statuts = $_POST['statut']; // Supposons que $_POST['statut'] est un tableau associatif avec les IDs des étudiants comme clés
 
-    } 
+    foreach ($result as $listeAbsence) {
+        $etudiantId = $listeAbsence['id'];
+        $promo = $listeAbsence['nom_promo'];
+        
+        // Vérifier si le statut d'absence existe pour cet étudiant dans le tableau $_POST['statut']
+        if (isset($statuts[$etudiantId])) {
+            $statut = $statuts[$etudiantId];
+
+            // Assigner les valeurs aux paramètres de la requête
+            $stmt->bindParam(':etudiantID', $etudiantId);
+            $stmt->bindParam(':promo', $promo);
+            $stmt->bindParam(':statut', $statut);
+
+            // Exécuter la requête d'insertion
+            $stmt->execute();
+        }
+    }
+}
+
+    
+
+    
             // Récupérer les données sous forme de tableau associatif
             public function modifierPresence($result,$statut){
                 try {
@@ -78,7 +85,7 @@ class EnregistrerPresenceModel extends \Database
           
 
             }
-} // Utiliser une requête préparée
+} 
             
             
 

@@ -1,11 +1,9 @@
 <?php
-//use db\Database;
-
-
 //include __DIR__ .'../models/EnregistrerPresenceModel.php';
 include dirname($_SERVER['DOCUMENT_ROOT']).'/universite/models/EnregistrerPresenceModel.php';
 
 class Enregistrer
+
 {
     private $Enregistrer;
     private $numPormo;
@@ -21,30 +19,25 @@ class Enregistrer
     public function doPresence()
     {  
         
-        
-        // if(isset($_POST['num_promo'])){
-            // $numPromo = $_POST['num_promo'];
-            $numPromo =1;
-        
+            if (isset($_POST['promo'])) {
+                $numPromo = $_POST['promo'];
                 $result = $this->Enregistrer->getClass($numPromo);
-                if(isset($result))
-                {
+                
+                // Vérifier si $result n'est pas vide avant de traiter les présences
+                if (!empty($result)) {
                     $this->Enregistrer->enregistrerPresence($result);
-                    json_encode($result);
-                    exit;
-                } 
-                else 
-                {
-                    echo json_encode(['error'=>"Problème de connexion"]);
+                    //echo json_encode(['success' => true]);  Réponse JSON pour indiquer le succès
+                } else {
+                    echo json_encode(['error' => "Aucun résultat pour cette promotion"]);
                 }
-             
-                // Inclure le layout qui gère le header et le footer
-            // } 
-            $this->template='enregistrer';
-           include('views/layout.phtml');
+            } 
+            $this->template = 'enregistrer';
+            include('views/layoutEnseignant.phtml');
         }
+}
+        
       
-        }
+
     
            
         
@@ -72,3 +65,4 @@ class Enregistrer
     
     // }
 // }
+    ?>
