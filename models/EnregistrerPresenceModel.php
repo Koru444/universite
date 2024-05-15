@@ -38,30 +38,40 @@ class EnregistrerPresenceModel extends \Database
             
     public function enregistrerPresence($result)
 { 
+    // Vérifier si $_POST['statut'] existe et est un tableau
+    if (!isset($_POST['statut']) || !is_array($_POST['statut'])) {
+        throw new InvalidArgumentException("Statuts d'absence invalides.");
+    }
+
+    $statuts = $_POST['statut']; // Supposons que $_POST['statut'] est un tableau indexé séquentiellement
+
+    // Débogage : Afficher les statuts reçus
+    var_dump($statuts);
+
     $requete = "INSERT INTO enregistrerpresence (id_etudiant, promo, status, date) VALUES (:etudiantID, :promo, :statut, NOW())";
     $stmt = $this->pdo->prepare($requete);
 
-    // Récupérer les statuts d'absence depuis $_POST['statut']
-    $statuts = $_POST['statut']; // Supposons que $_POST['statut'] est un tableau associatif avec les IDs des étudiants comme clés
-
-    foreach ($result as $listeAbsence) {
+    foreach ($result as $index => $listeAbsence) {
         $etudiantId = $listeAbsence['id'];
         $promo = $listeAbsence['nom_promo'];
-        
-        // Vérifier si le statut d'absence existe pour cet étudiant dans le tableau $_POST['statut']
-        if (isset($statuts[$etudiantId])) {
-            $statut = $statuts[$etudiantId];
+
+        // Vérifier si l'index existe dans le tableau des statuts
+        if (isset($statuts[$index])) {
+            $statut = $statuts[$index];
 
             // Assigner les valeurs aux paramètres de la requête
-            $stmt->bindParam(':etudiantID', $etudiantId);
-            $stmt->bindParam(':promo', $promo);
-            $stmt->bindParam(':statut', $statut);
+            $stmt->bindValue(':etudiantID', $etudiantId);
+            $stmt->bindValue(':promo', $promo);
+            $stmt->bindValue(':statut', $statut);
 
             // Exécuter la requête d'insertion
             $stmt->execute();
         }
     }
 }
+
+
+
 
     
 

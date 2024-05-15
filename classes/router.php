@@ -10,6 +10,7 @@ class Router
                         'home'          => ['controllers' => 'Home', 'method' => 'showHome'], 
                         'register'      => ['controllers' => 'Register', 'method' => 'showRegister'],
                         'loginAdmin'       => ['controllers' => 'Login', 'method' => 'showLoginAdmin'],
+                       
                         'loginEnseignant'  => ['controllers' => 'Login', 'method' => 'showLoginEnseignant'],
                         'loginEtudiant' => ['controllers' => 'Login', 'method' => 'showLoginEtudiant'],
                         'enregistrer'   => ['controllers' => 'Enregistrer', 'method' => 'doPresence'],
