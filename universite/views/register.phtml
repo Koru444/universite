@@ -1,0 +1,32 @@
+<h1>Créer un nouveau compte:</h1>
+<section id="register" class="col s12">
+    <form class="col s12" method="POST" action="<?=$_SERVER['REQUEST_URI']?>">
+        <article class="form-register">
+
+            <div class="input-field col s6">
+                <label for="firstname">Prénom</label>
+                <input id="firstname" name="firstname" type="text" class="validate">
+            </div>
+
+            <div class="input-field col s6">
+                <label for="lastname">Nom</label>
+                <input id="lastname" name="lastname" type="text" class="validate">
+            </div>
+
+            <div class="input-field col s12">
+                <label for="email">Email</label>
+                <input id="email" type="email" name="email" class="validate">
+            </div>
+
+            <div class="input-field col s12">
+                <label for="password">Mot de passe</label>
+                <input id="password" name="password" type="password" class="validate">
+            </div>
+
+            <div class="register">
+                <button class="btn-register" type="submit" name="submit">Soumettre</button>
+            </div>
+        </article>
+    </form>
+</section>
+</div>

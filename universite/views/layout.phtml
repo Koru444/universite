@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./public/css/style.css">
+    <title>Acceuil</title>
+</head>
+
+
+<!-- BODY -->
+<body >
+<header>
+        <nav>
+            <ul class="ok">
+                <a href="#"><img src="./public/images//default-logo.png" alt=""></a>
+                <a href="#" id="openBtn">
+                    <span class="burger-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </a>
+            </ul>
+            <div id="mySidenav" class="sidenav">
+                <a id="closeBtn" href="#" class="close">×</a>
+                <ul>
+                    
+                        
+                        <li><a href="index.php?url=loginEnseignant" class="item">Enseignant</a></li>
+                        <li><a href="index.php?url=loginEtudiant" class="item">Etudiant</a></li>
+                </ul>
+            </div>
+            
+        </nav>
+    </header>
+    <!-- MAIN -->
+    <main>
+        <!-- AFFICHAGE DU TEMPLATE CORRESPONDANT À LA VIEW VISÉ -->
+        <?php include $this->template.'.phtml'?>
+    </main>
+    
+    <!-- FOOTER COMMUN-->
+    <footer >
+  
+            <p>&copy; 2024 Mon Site Web. Tous droits réservés.</p> 
+    </footer>
+    <script src="./public/js/navbar.js"></script>
+  
+</body>
+
+</html>
