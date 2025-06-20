@@ -15,6 +15,7 @@ class Login
     private $password;
     private $template;
     private $LoginModel;
+    public string $error = '';
 
     public function __construct(){
         $this->LoginModel = new LoginModel();
@@ -46,29 +47,27 @@ class Login
         include('views/layout.phtml');
     }
     
-    public function showLoginAdmin()
+        public function showLoginAdmin()
+        
     {
-        // Vérifier si le formulaire de connexion a été soumis
         if (isset($_POST['email'], $_POST['password'])) {
-            // Récupérer les données du formulaire
             $this->email = htmlspecialchars($_POST['email']);
             $this->password = htmlspecialchars($_POST['password']);
 
-            // Instancier le modèle pour vérifier les informations de connexion
-            //$loginModel = new LoginModel\LoginModel;
-
-            // Appeler la méthode de vérification des informations de connexion
             $result = $this->LoginModel->checkLoginAdmin($this->email, $this->password);
-            header('Location: index.php?url=profilAdmin');
 
-            // Vérifier si la connexion a réussi
-         
+            if ($result) {
+                // Connexion réussie
+                header('Location: index.php?url=profilAdmin');
+                exit;
+            } else {
+                // Connexion échouée : message d'erreur
+                $this->error = "Email ou mot de passe incorrect.";
+            }
         }
 
-        // Inclure le template
+        // Affichage de la page
         $this->template = "login";
-
-        // Inclure le layout qui gère le header et le footer
         include('views/layout.phtml');
     }
     public function showLoginEtudiant()
@@ -79,20 +78,28 @@ class Login
             $this->email = htmlspecialchars($_POST['email']);
             $this->password = htmlspecialchars($_POST['password']);
 
-            // Instancier le modèle pour vérifier les informations de connexion
-            //$loginModel = new LoginModel\LoginModel;
-
             // Appeler la méthode de vérification des informations de connexion
             $result = $this->LoginModel->checkLoginEtudiant($this->email, $this->password);
+                    
+
+               if ($result) {
+                // Connexion réussie
+                header('Location: index.php?url=profilEtudiant');
+                exit;
+            } else {
+                // Connexion échouée : message d'erreur
+                $this->error = "Email ou mot de passe incorrect.";
+            }
 
             // Vérifier si la connexion a réussi
          
         }
-
-        // Inclure le template
+        // Affichage de la page
         $this->template = "login";
-
-        // Inclure le layout qui gère le header et le footer
         include('views/layout.phtml');
+    }
+
+    public function test(){
+             $result = $this->LoginModel->testAdmin();
     }
 }

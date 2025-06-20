@@ -1,0 +1,30 @@
+<div class="form-container">
+    <h2>Mettre à jour Etudiant</h2>
+    <form method="POST" action="<?= $_SERVER['REQUEST_URI'] ?>"> 
+        <input type="hidden" name="id" value="<?= htmlspecialchars($etudiant['id'] ?? '') ?>">
+
+        <div class="form-group">
+            <label for="nom">Nom :</label>
+            <input id="nom" name="nom" type="text" value="<?= htmlspecialchars($etudiant['nom'] ??  'Nom non trouvé') ?>" required>
+        </div>
+
+        <div class="form-group">
+            <label for="prenom">Prénom :</label>
+            <input id="prenom" name="prenom" type="text" value="<?= htmlspecialchars($etudiant['prenom'] ?? '') ?>" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email :</label>
+            <input id="email" name="email" type="email" value="<?= htmlspecialchars($etudiant['email'] ?? '') ?>" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="tel">Tel :</label>
+            <input id="tel" name="tel" type="text" value="<?= htmlspecialchars($etudiant['tel'] ?? '') ?>" required>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" name="submit">Mettre à jour</button>
+        </div>
+    </form>
+</div>

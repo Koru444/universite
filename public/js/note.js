@@ -1,36 +1,37 @@
 function getRequeteHttp() {
-    let requeteHttp;
-
-    if (window.XMLHttpRequest) {//Navigateure basé sur Mozilla
-        requeteHttp = new XMLHttpRequest();
-        if (requeteHttp.overrideMimeType) {//Si ça exige que le type des donnéees utilisé par le serveur soit text/xml
-            requeteHttp.overrideMimeType("text/xml");
-        }
-    } else {
-        if (window.ActiveXObject) {// Si c'est internet explorer
-            try {
-                requeteHttp = new ActiveXObject("Microsoft.XMLHTTP");
-            } catch (e) {
-                requeteHttp = null;
-            }
-        }
+    let xhr = null;
+    if (window.XMLHttpRequest) {
+        xhr = new XMLHttpRequest();
+    } else if (window.ActiveXObject) {
+        xhr = new ActiveXObject("Microsoft.XMLHTTP");
     }
-    return requeteHttp;
+    return xhr;
 }
 
 function envoyerRequetePromotionNote() {
-    let requeteHttp = getRequeteHttp();
+   
+        let requeteHttp = getRequeteHttp();
 
-    if (requeteHttp == null) {
-        alert("Impossible d'utiliser AJAX sur ce navigateur !");
-    } else {
-        let promos_id = document.getElementById('promos').value;
-        console.log(promos_id);
-        requeteHttp.open('POST','universite\controllers\Note.php', true);
-        requeteHttp.setRequestHeader("Content-Type", "application/json");
-        requeteHttp.send("promos=" + promos_id);
-        requeteHttp.onreadystatechange = function () { recevoirPromotion(requeteHttp) };
-    }
+        if (requeteHttp == null) {
+            alert("Impossible d'utiliser AJAX sur ce navigateur !");
+        } else {
+            let promos_id = document.getElementById('promos').value;
+            // console.log(promos_id);
+            requeteHttp.open('POST','models\\etudiant.php', true);
+            requeteHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            requeteHttp.send("num_promo=" + promos_id);
+            // requeteHttp.onreadystatechange = function () { recevoirPromotion(requeteHttp) };
+            requeteHttp.onreadystatechange = function() {
+                if (requeteHttp.readyState == 4) {
+                    if (requeteHttp.status == 200) {
+                        recevoirPromotion(requeteHttp);
+                    } else {
+                        console.error('Erreur de requête: ' + requeteHttp.status);
+                    }
+                }
+            };
+        }
+    
 }
 
 function recevoirPromotion(requeteHttp) {
@@ -39,8 +40,8 @@ function recevoirPromotion(requeteHttp) {
         // Si le réponse est bien envoyée
         if (requeteHttp.status == 200) {
             // let obj = JSON.parse(requeteHttp.responseText);
-              let obj = JSON.stringify(requeteHttp.responseText);
-
+              let obj = JSON.parse(requeteHttp.responseText);
+              console.log(obj)
 
             let contenuClass = "";
             for (let i = 0; i < obj.length; i++) {
@@ -51,11 +52,11 @@ function recevoirPromotion(requeteHttp) {
                 contenuClass += `<td>${eleve.nom_promo}</td>`;
                 contenuClass += 
                 `<td>
-                    <select name ='statut'>
-                        <option value="A">absent</option>
-                        <option value="P">présent</option>
-                        <option value="R">retard</option>
-                    </select>
+                <input type="text" name="note[]">
+                </td>`;
+                contenuClass += 
+                `<td>
+                <input type="text" name="commentaire[]">
                 </td>`;
                 contenuClass += `</tr>`;
             }

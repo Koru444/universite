@@ -21,7 +21,7 @@ class RegisterEnseignantModel //extends Database
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         // Préparer la requête d'insertion
-        $stmt = $this->pdo->query("INSERT INTO admin (Firstname, Lastname, Email, password, creationTimeStamp) VALUES (?, ?, ?, ?, NOW())");
+        $stmt = $this->pdo->query("INSERT INTO admin (nom, prenom, Email, password, creationTimeStamp) VALUES (?, ?, ?, ?, NOW())");
 
         // Exécuter la requête avec les valeurs fournies
         $result = $stmt->execute([ $firstname,$lastname, $email, $hashedPassword]);

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <!-- <meta charset="UTF-8">
+    <title>Liste des présences</title>
+    <style>
+        table {
+            width: 90%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background: #f0f0f0;
+        }
+        .alerte {
+            color: red;
+            font-weight: bold;
+        }
+    </style> -->
+</head>
+<body>
+<h2 style="text-align: center;">Tableau de suivi des notes</h2>
+
+<h2>Mes Notes</h2>
+<table>
+  <tr>
+    <th>Professeur</th>
+    <th>Note</th>
+    <th>Commentaire</th>
+    <th>Date</th>
+  </tr>
+  <?php foreach ($noteEtudiant as $note): ?>
+    <tr>
+        <td><?= htmlspecialchars($note['nom_prof'] . ' ' . $note['prenom_prof']) ?></td>
+        <td><?= htmlspecialchars($note['Note'] ?? '') ?></td>
+        <td><?= htmlspecialchars($note['Commentaire'] ?? '') ?></td>
+        <td><?= htmlspecialchars($note['DateEnregistrement'] ?? '') ?></td>
+    </tr>
+  <?php endforeach; ?>
+</table>
+
+</body>
+</html>

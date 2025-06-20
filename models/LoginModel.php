@@ -23,90 +23,90 @@ class LoginModel extends Database
     }
 
     public function checkLoginEtudiant($email, $password)
-    {
-        // Préparer la requête de sélection pour vérifier les informations de connexion
-        $query = $this->pdo->prepare("SELECT  nom, prenom, email, mot_de_passe FROM etudiant WHERE Email = ?");
-        $query->execute([$_POST['email']]);
-        $user = $query->fetch(PDO::FETCH_ASSOC);
-        //var_dump($user);
-    //echo($user['password']);
-        // Vérifier si l'utilisateur existe et si le mot de passe est correct
-        if ($user && password_verify($password, $user['mot_de_passe'])) {
-            // Authentification réussie
-            // Ouvrir une session (ça permet de sécuriser la connexion)
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['firstname'] = $user['nom'];
-            $_SESSION['lastname'] = $user['prenom'];
-            $_SESSION['password'] = $user['mot_de_passe'];
-            $_SESSION['email'] = $user['email'];
-            return true;
-            
-        } else {
-            // Authentification échouée
-            //  if (empty($user)) {
-            //     throw new DomainException("Cette adresse e-mail n'existe pas !");
-            // }
-            return false;
-        }     
+{
+    // Préparer la requête de sélection pour vérifier les informations de connexion
+    $query = $this->pdo->prepare("SELECT id, nom, prenom, email, mot_de_passe FROM etudiant WHERE email = ?");
+    $query->execute([$email]); // ✅ CORRIGÉ
 
+    $user = $query->fetch(PDO::FETCH_ASSOC);
+
+
+    if ($user && password_verify($password, $user['mot_de_passe'])) {
+        // Démarrer session si besoin
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+            
+        }
         
-    }
+        $_SESSION['id_etudiant'] = $user['id'];
+        $_SESSION['nom'] = $user['nom'];
+        $_SESSION['prenom'] = $user['prenom'];
+        $_SESSION['mot_de_passe'] = $user['mot_de_passe'];
+        $_SESSION['email'] = $user['email'];
+    
+        return true;
+
+    } else {
+        if (empty($user)) {
+            throw new DomainException("Cette adresse e-mail n'existe pas !");
+        }
+        return false;
+    } 
+}
+
     public function checkLoginEnseignant($email, $password)
-    {
-        // Préparer la requête de sélection pour vérifier les informations de connexion
-        $query = $this->pdo->prepare("SELECT id, nom, prenom, email, mot_de_passe FROM enseignants WHERE Email = ?");
-        $query->execute([$_POST['email']]);
-        $user = $query->fetch(PDO::FETCH_ASSOC);
-        //var_dump($user);
-    //echo($user['password']);
-        // Vérifier si l'utilisateur existe et si le mot de passe est correct
-        if ($user && password_verify($password, $user['mot_de_passe'])) {
-            // Authentification réussie
-            // Ouvrir une session (ça permet de sécuriser la connexion)
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['firstname'] = $user['nom'];
-            $_SESSION['lastname'] = $user['prenom'];
-            $_SESSION['password'] = $user['mot_de_passe'];
-            $_SESSION['email'] = $user['email'];
-            return true;
-            
-        } else {
-            // Authentification échouée
-            //  if (empty($user)) {
-            //     throw new DomainException("Cette adresse e-mail n'existe pas !");
-            // }
-            return false;
-        }     
+{
+    $query = $this->pdo->prepare("SELECT id, nom, prenom, email, mot_de_passe FROM enseignants WHERE email = ?");
+    $query->execute([$email]);
+    $user = $query->fetch(PDO::FETCH_ASSOC);
 
-        
-    }
-    public function checkLoginAdmin($email, $password)
-    {
-        // Préparer la requête de sélection pour vérifier les informations de connexion
-        $query = $this->pdo->prepare("SELECT id, Firstname, Lastname, Email, password FROM admin WHERE Email = ?");
-        $query->execute([$_POST['email']]);
-        $user = $query->fetch(PDO::FETCH_ASSOC);
-        //var_dump($user);
-    //echo($user['password']);
-        // Vérifier si l'utilisateur existe et si le mot de passe est correct
-        if ($user && password_verify($password, $user['password'])) {
-            // Authentification réussie
-            // Ouvrir une session (ça permet de sécuriser la connexion)
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['firstname'] = $user['Firstname'];
-            $_SESSION['lastname'] = $user['Lastname'];
-            $_SESSION['password'] = $user['password'];
-            $_SESSION['email'] = $user['Email'];
-            return true;
-            
-        } else {
-            // Authentification échouée
-            //  if (empty($user)) {
-            //     throw new DomainException("Cette adresse e-mail n'existe pas !");
-            // }
-            return false;
-        }     
+    if ($user && password_verify($password, $user['mot_de_passe'])) {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
-        
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['firstname'] = $user['nom'];
+        $_SESSION['lastname'] = $user['prenom'];
+        $_SESSION['email'] = $user['email'];
+
+        return true;
+    } else {
+        if (empty($user)) {
+            throw new DomainException("Cette adresse e-mail n'existe pas !");
+        }
+        return false;
     }
+}
+
+   public function checkLoginAdmin($email, $password)
+{
+    $query = $this->pdo->prepare("SELECT id, nom, prenom, Email, password FROM admin WHERE Email = ?");
+    $query->execute([$email]); // ✅ CORRIGÉ
+
+    $user = $query->fetch(PDO::FETCH_ASSOC);
+
+    if ($user && password_verify($password, $user['password'])) {
+        // Démarrer session si besoin
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+            
+        }
+
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['firstname'] = $user['nom'];
+        $_SESSION['lastname'] = $user['prenom'];
+        $_SESSION['password'] = $user['password'];
+        $_SESSION['email'] = $user['Email'];
+    
+        return true;
+
+    } else {
+        if (empty($user)) {
+            throw new DomainException("Cette adresse e-mail n'existe pas !");
+        }
+        return false;
+    }
+}
+ 
 }

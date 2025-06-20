@@ -18,11 +18,11 @@ require('controllers/Register.php');
 require('controllers/Login.php');
 require('controllers/Enregistrer.php');
 require('controllers/Note.php');
-// require('controllers/Class.php');
-// require('controllers/Contact.php');
 require('controllers/Profil.php');
 require('controllers/Logout.php');
 require('controllers/Admin.php');
+// require('controllers/Class.php');
+// require('controllers/Contact.php');
 
 // require('controllers/ClassController.php');
 // CHARGEMENT DE LA CONFIGURATION ET L'AUTOLOAD

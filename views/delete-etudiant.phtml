@@ -1,0 +1,19 @@
+<section>
+    <div class="confirmation-section">
+        <h2>Êtes-vous sûr de vouloir supprimer cet etudiant ?</h2>
+        <form method="POST" action="<?= $_SERVER['REQUEST_URI'] ?>">
+            <input type="hidden" name="id" value="<?= htmlspecialchars($_GET['id']) ?>">
+            <div class="options">
+              
+                <button type="submit" name="confirmation" value="oui" class="option green">
+                    <p>Oui</p>
+                </button>
+    
+                <button   name="confirmation-2" value="non" class="option red">
+                    <p><a href="index.php?url=admin-etudiants">Non</a> </p>
+                </button>
+            </div>
+        </form>
+    </div>
+
+</section>

@@ -1,0 +1,40 @@
+
+<h1>Gestion des etudiant</h1>
+<section class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Email</th>
+                        <th>Promotion</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($listeEtudiants as $etudiant): ?>
+              
+                        <tr>
+                            <td><?php echo $etudiant['id']?></td>
+                            <td><?php echo $etudiant['nom']?></td>
+                            <td><?php echo $etudiant['prenom']?></td>
+                            <td><?php echo $etudiant['email']?></td>
+                            <td><?php echo $etudiant['promotion']?></td>
+
+                            <td>
+                                <button class="btn-edit"> <a href="update-etudiant?id=<?php echo htmlspecialchars($etudiant['id'], ENT_QUOTES, 'UTF-8'); ?>">Éditer</a></button>
+                                <button class="btn-delete"><a href="delete-etudiant?id=<?php echo htmlspecialchars($etudiant['id'], ENT_QUOTES, 'UTF-8'); ?>">Supprimer</a></button>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                  
+                    <!-- Ajouter d'autres lignes ici pour plus d'utilisateurs -->
+                </tbody>
+            </table>
+        </section>
+
+        
+        <h3>Voulez-vous ajouter un nouvel etudiant ?</h3>
+        <button><a href="index.php?url=register-etudiant">Ajouter</a></button>
+        

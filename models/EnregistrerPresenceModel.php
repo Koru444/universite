@@ -1,7 +1,9 @@
 <?php
 // namespace models;
 
-require_once "db/database.php";
+require_once "C:\wamp64\www\universite\db\database.php";
+//include_once dirname($_SERVER['DOCUMENT_ROOT']).'/universite/db/database.php';
+
 
 class EnregistrerPresenceModel extends \Database
 {
@@ -12,66 +14,68 @@ class EnregistrerPresenceModel extends \Database
         parent::__construct();
     }
     public function getClass($numPromo) {
-        try{
-           
-
-                 if(isset($numPromo)&&is_numeric($numPromo)){
-
+        try {
+            if (isset($numPromo) && is_numeric($numPromo)) {
                 $numEtudiant = "SELECT etudiant.id, etudiant.nom, etudiant.prenom, promotion.nom as nom_promo FROM etudiant INNER JOIN promotion ON etudiant.promotion = promotion.id WHERE promotion = :numPromo";
                 $stmt = $this->pdo->prepare($numEtudiant);
                 $stmt->bindParam(':numPromo', $numPromo, PDO::PARAM_STR);
                 $stmt->execute();
-                // var_dump($stmt);
-        
-                return $stmt->fetchAll(\PDO::FETCH_ASSOC); 
-                // Envoyer la réponse au format JSON
-                $chaine = "[";
-                while ($ligne = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    $chaine .= "{";
-                        $chaine .= "\"nom\" : \"$ligne[nom]\",";
-                        $chaine .= "\"prenom\" : \"$ligne[prenom]\",";
-                        $chaine .= "\"promotion\" : \"$ligne[nom_promo]\"";
-                        $chaine .= "},";
-                    }
-    $test =json_encode($chaine);
-        // Envoyer la réponse au format JSON
-        echo $test;
-                if (strlen($chaine) > 1) {
-                    $chaine = substr($chaine, 0, -1);
-                }   
-                $chaine .=  "]";
-                echo $chaine;
-                $stmt->closeCursor();
+            
+                // Récupérer les résultats sous forme de tableau associatif
+                $resultats = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                // Convertir les résultats en JSON
+                $jsonResponse = json_encode($resultats);
+    // var_dump($jsonResponse);
+                // Envoyer la réponse JSON
+                // header('Content-Type: application/json');
+                    return $resultats;
             }
-                } catch (\PDOException $e) {
-                    echo "ERREUR DE CONNEXION : " . $e->getMessage();
-                }
-                
-                // Structuration sous format JSON
-             
-            }
+        } catch (\PDOException $e) {
+            echo "ERREUR DE CONNEXION : " . $e->getMessage();
+        }
+    }
+    
             
     public function enregistrerPresence($result)
-    { 
-        // Appeler la fonction getClass pour obtenir les données
-        //   $listeAbsences=  $this->getClass($this->numPromo);
-        //     var_dump($listeAbsences);
-            
-            foreach ($result as $listeAbsence) {
-                
-                    $id = $listeAbsence['id'];
-                    $promotion = $listeAbsence['nom_promo'];
-                    // $statut = $_POST['statut'];
-                    $requete = "INSERT INTO enregistrerpresence (id_etudiant, promo) VALUES ('$id','$promotion')";
-             $stmt2 = $this->pdo->query($requete);
-                    // Utiliser $this->connexion au lieu de créer une nouvelle connexion
-                    if(isset($_POST['ok'])){ 
-                        $stmt2->execute();
+{ 
+    // Vérifier si $_POST['statut'] existe et est un tableau
+    if (!isset($_POST['statut']) || !is_array($_POST['statut'])) {
+        throw new InvalidArgumentException("Statuts d'absence invalides.");
+    }
 
-                } 
-        }                
+    $statuts = $_POST['statut']; // Supposons que $_POST['statut'] est un tableau indexé séquentiellement
 
-    } 
+    // Débogage : Afficher les statuts reçus
+    var_dump($statuts);
+
+    $requete = "INSERT INTO enregistrerpresence (id_etudiant, promo, status, date) VALUES (:etudiantID, :promo, :statut,now())";
+    $stmt = $this->pdo->prepare($requete);
+
+    foreach ($result as $index => $listeAbsence) {
+        $etudiantId = $listeAbsence['id'];
+        $promo = $listeAbsence['nom_promo'];
+
+        // Vérifier si l'index existe dans le tableau des statuts
+        if (isset($statuts[$index])) {
+            $statut = $statuts[$index];
+
+            // Assigner les valeurs aux paramètres de la requête
+            $stmt->bindValue(':etudiantID', $etudiantId);
+            $stmt->bindValue(':promo', $promo);
+            $stmt->bindValue(':statut', $statut);
+
+            // Exécuter la requête d'insertion
+            $stmt->execute();
+        }
+    }
+}
+
+
+
+
+    
+
+    
             // Récupérer les données sous forme de tableau associatif
             public function modifierPresence($result,$statut){
                 try {
@@ -91,7 +95,39 @@ class EnregistrerPresenceModel extends \Database
           
 
             }
-} // Utiliser une requête préparée
+
+
+    public function SuivisPresence(){
+        try {
+            $sql = "SELECT e.id,e.nom,e.prenom,e.email, 
+             SUM(CASE WHEN p.status = 'A' THEN 1 ELSE 0 END) AS total_absences,
+             SUM(CASE WHEN p.status = 'R' THEN 1 ELSE 0 END) AS total_retards FROM etudiant e 
+            LEFT JOIN enregistrerpresence p ON e.id = p.id_etudiant GROUP BY e.id, e.nom, e.prenom, e.email ORDER BY e.id ASC;
+            ";
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);        
+        } catch (\PDOException $e) {
+        echo "ERREUR  : " . $e->getMessage();        }
+       
+    } 
+
+    public function getStatsPourEtudiant($id_etudiant) {
+        $sql = "SELECT 
+    e.id,
+    e.nom,e.prenom,
+    e.email,
+    COALESCE(SUM(CASE WHEN p.status = 'A' THEN 1 ELSE 0 END), 0) AS total_absences,
+    COALESCE(SUM(CASE WHEN p.status = 'R' THEN 1 ELSE 0 END), 0) AS total_retards
+    FROM etudiant e LEFT JOIN enregistrerpresence p ON e.id = p.id_etudiant WHERE e.id = :id GROUP BY e.id, e.nom,e.prenom,e.email
+        ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['id' => $id_etudiant]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+}
             
             
 

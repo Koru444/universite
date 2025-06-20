@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" defer src="public/js/note.js"></script>
+    <link rel="stylesheet" href="style.css">
+
     <title>Enregistrer note</title>
 </head>
 
@@ -15,7 +17,7 @@
     <section id="note" class="col s12">
         <form class="col s12" action="<?=$_SERVER['REQUEST_URI']?>" method="post">
             <p>Promotion: <select name="promos" id="promos" onchange="envoyerRequetePromotionNote()">
-                    <option value="0">- </option>
+                    <option value="">- </option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -36,14 +38,7 @@
                 <tbody id='class'>
                 </tbody>
                 <tr>
-                    <td colspan="4">
-                        <label for="note">Note :</label>
-                        <input type="text" name="note">
-                    </td>
-                    <td>
-                        <label for="commentaire">Commentaire :</label>
-                        <textarea name="commentaire"></textarea>
-                    </td>
+                    
                 </tr>
             </table>
             

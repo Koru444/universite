@@ -1,4 +1,4 @@
-<h1>Ajouter un nouvel étudiant:</h1>
+<h1>Ajouter un nouvelle etudiant:</h1>
 <section id="register" class="col s12">
     <form class="col s12" method="POST" action="<?=$_SERVER['REQUEST_URI']?>">
         <article class="form-register">
@@ -23,13 +23,14 @@
                 </select>
             </div>
 
-            <div class="input-field col s6">
-                <label for="date">date : :</label>
-                <input id="date" name="date" type="date" class="validate">
+        <div class="input-field col s6">
+                <label for="age">Age:</label>
+                <input  name="age" type="number" name="age" class="validate">
             </div>
+
             
             <div class="input-field col s6">
-                <label for="tel">tel :</label>
+                <label for="tel">Tel :</label>
                 <input id="tel" name="tel" type="text" class="validate">
             </div>
             
@@ -44,7 +45,7 @@
             </div>
 
             <div class="input-field col s6">
-                <label for="lastname">promotion :</label>
+                <label for="lastname">Promotion :</label>
                 <select id="promo" name="promo">
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -61,4 +62,3 @@
         </article>
     </form>
 </section>
-</div>

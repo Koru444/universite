@@ -8,28 +8,41 @@ class Router
 
     private $routes = [ 
                         'home'          => ['controllers' => 'Home', 'method' => 'showHome'], 
-                        'register'      => ['controllers' => 'Register', 'method' => 'showRegister'],
-                        'loginAdmin'       => ['controllers' => 'Login', 'method' => 'showLoginAdmin'],
+                        'specialAdmin'       => ['controllers' => 'Login', 'method' => 'showLoginAdmin'],
                         'loginEnseignant'  => ['controllers' => 'Login', 'method' => 'showLoginEnseignant'],
                         'loginEtudiant' => ['controllers' => 'Login', 'method' => 'showLoginEtudiant'],
                         'enregistrer'   => ['controllers' => 'Enregistrer', 'method' => 'doPresence'],
-                        'enregistrerEtudiant'  => ['controllers' => 'Admin','method' =>'createEtudiant'],
-                        'enregistrerEnseignant' =>['controllers' => 'Admin', 'method'=>'createEnseignant'],
+                        'admin-enregistrer'   => ['controllers' => 'Register', 'method' => 'showRegister'],
+                        'etudiant-enregistrer'  => ['controllers' => 'Admin','method' =>'createEtudiant'],
+                        'enseignant-enregistrer' =>['controllers' => 'Admin', 'method'=>'createEnseignant'],
                         'note'          => ['controllers' => 'Note','method' => 'doNote'],
+                        'admin-note'          => ['controllers' => 'Note','method' => 'doNoteAdmin'],
                         'profilAdmin'  => ['controllers' => 'Profil', 'method' =>'showProfileAdmin'],
                         'profilEtudiant'     => ['controllers' => 'Profil', 'method' => 'showProfileEtudiant'],
                         'profilEnseignant'   => ['controllers' => 'Profil', 'method' => 'showProfileEnseignant'],
                         'logout'        => ['controllers' => 'Logout','method' => 'forLogout'],
                         'listeEnseignants' => ['controllers' => 'Admin', 'method'=>'getEnseignants'],  
                         'listeEtudiants'   => ['controllers' => 'Admin', 'method'=>'getEtudiants'],
-
-                    ];
+                        'register-enseignant'=>['controllers' => 'Admin', 'method'=> 'createEnseignant'],
+                        'register-etudiant' =>['controllers' => 'Admin', 'method'=>  'createEtudiant'],
+                        'register-admin' =>['controllers' => 'Admin', 'method'=>  'createAdmin'],
+                        'admin-enseignants' =>['controllers' => 'Admin', 'method'=>  'homeAdminEnseignant'],
+                        'admin-etudiants' =>['controllers' => 'Admin', 'method'=>  'homeAdminEtudiant'],
+                        'update-enseignant'=>['controllers'=> 'Admin','method'=> 'updateEnseignants'],
+                        'update-etudiant'=>['controllers'=> 'Admin','method'=> 'updateEtudiants'],
+                        'delete-enseignant'=>['controllers'=> 'Admin','method'=>  'deleteEnseignant'],
+                        'delete-etudiant'=>['controllers'=> 'Admin','method'=>  'deleteEnseignant'],
+                        'abs-etudiant'=>['controllers'=>'Graph','method'=> 'ShowGraph'],
+                        'suivis-presence'=>['controllers'=>'Enregistrer','method'=>'SuivisPresences'],
+                        'verif-absence' => ['controllers' => 'Enregistrer', 'method' => 'verifierAbsences'],
+                        'suivis-note'=>['controllers' => 'Note','method' =>'GetNotEtudiant']
+                        ];
 
     public function __construct($request)
     {
         $this->request = $request;
     }
-
+    
 
     public function renderControllers()
     {

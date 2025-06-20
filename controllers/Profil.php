@@ -32,14 +32,23 @@ class Profil
         include('views/layoutEtudiant.phtml');
 
     }
-    public function showProfileAdmin(){
+    public function showProfileAdmin()
+    {
+        // Démarrer la session si elle n'est pas déjà active
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
-        
-        $this->template='admin';
-      
-   
+        // Vérifier si l'admin est connecté (sinon rediriger)
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: index.php?url=loginAdmin');
+            exit;
+        }
 
-include('views/layoutAdmin.phtml');
+        // Définir le template à utiliser
+        $this->template = 'admin';
 
-}
+        // Inclure le layout qui charge la vue et les parties communes
+        include('views/layoutAdmin.phtml');
+    }
 }

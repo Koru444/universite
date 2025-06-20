@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="graph">
+      <h2>Graphique d'absence</h2>
+  <canvas id="myChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="./public/js/graph.js"></script>
+
+<script>
+  const chartData = <?= json_encode($this->graphData) ?>;
+  // Puis réutilise chartData dans ton Chart.js
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<?php
+class FormView {
+    public static function afficherFormulaire() {
+        echo '<h2>Vérification d\'un élève</h2>';
+        echo '<form method="POST">
+                <label for="id_etudiant">ID Étudiant :</label>
+                <input type="number" name="id_etudiant" required>
+                <button type="submit">Vérifier</button>
+                <button type="button"><a href="suivis-presence">Retour</a></button>
+                </form>';
+    }
+}

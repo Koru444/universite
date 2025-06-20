@@ -14,8 +14,8 @@ class Database
         // $server = "mysql:host=localhost;dbname=projet_final","root", "";
       
         try {
-            $this->pdo = new \PDO("mysql:host=localhost;dbname=projet_final", "root", "");
-            $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $this->pdo = new PDO("mysql:host=localhost;dbname=projet_final", "root", "");
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             // echo 'Connexion réussie';
         }
         catch(\PDOException $e) {
@@ -32,28 +32,6 @@ class Database
         return $this->stmt = $this->pdo->prepare($query);
     }
 
-    //  public function bind($param, $value, $type = null){
-    //         if(isnull($type)){
-    //             switch(true){
-    //                 case is_int($value):
-    //                     $type = PDO::PARAM_INT;
-    //                     break;
-
-    //                 case is_bool($value):
-    //                     $type = PDO::PARAM_BOOL;
-    //                     break;
-
-    //                 case is_null($value):
-    //                     $type = PDO::PARAM_NULL;
-    //                     break;
-
-    //                 default : 
-    //                     $type = PDO::PARAM_STR;
-    //             }
-    //         }
-
-    //         return $this->stmt->bindValue($param, $value, $type);
-    //     }
 
 
         public function execute(){
